@@ -1,0 +1,22 @@
+@model ProyectoEmpanadas.Models.Empanada
+
+<h1>Editar Empanada</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Sabor"></label>
+        <input asp-for="Sabor" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Precio"></label>
+        <input asp-for="Precio" class="form-control" type="number" step="0.01" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CantidadInventario"></label>
+        <input asp-for="CantidadInventario" class="form-control" type="number" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a asp-action="Index">Volver al listado</a>
+</form>
