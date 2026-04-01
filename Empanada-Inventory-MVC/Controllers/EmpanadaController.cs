@@ -52,4 +52,28 @@ public class EmpanadaController : ControllerBase
         }
         return View(empanada);
     }
+
+    // GET: Empanada/Delete/5 (Muestra la confirmación)
+    [HttpGet("Delete/{id}")]
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null) return NotFound();
+
+        var empanada = await _context.Empanadas
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (empanada == null) return NotFound();
+
+        return View(empanada);
+    }
+
+    // POST: Empanada/Delete/5 (Ejecuta la eliminación en SQL Server)
+    [HttpPost("Delete/{id}"), ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var empanada = await _context.Empanadas.FindAsync(id);
+        _context.Empanadas.Remove(empanada);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
 }
