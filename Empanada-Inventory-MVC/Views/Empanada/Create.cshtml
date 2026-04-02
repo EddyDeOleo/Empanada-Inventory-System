@@ -1,7 +1,7 @@
 ﻿@model EmpanadaInventory.Models.Empanada
 
 @{
-    ViewData["Title"] = "Editar Empanada";
+    ViewData["Title"] = "Nueva Empanada";
 }
 
 <style>
@@ -11,12 +11,12 @@
     }
 
     .page-header {
-        background: linear-gradient(135deg, #1a5276, #2980b9);
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
         color: white;
         padding: 28px 40px;
         border-radius: 12px;
         margin-bottom: 30px;
-        box-shadow: 0 4px 15px rgba(41,128,185,0.3);
+        box-shadow: 0 4px 15px rgba(192,57,43,0.3);
     }
 
         .page-header h2 {
@@ -53,12 +53,12 @@
     }
 
         .form-control:focus {
-            border-color: #2980b9;
-            box-shadow: 0 0 0 3px rgba(41,128,185,0.1);
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
         }
 
     .btn-guardar {
-        background: linear-gradient(135deg, #1a5276, #2980b9);
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
         color: white;
         border: none;
         padding: 11px 28px;
@@ -82,6 +82,7 @@
         font-weight: 500;
         text-decoration: none;
         font-size: 0.95rem;
+        transition: background 0.2s;
     }
 
         .btn-cancelar:hover {
@@ -92,35 +93,34 @@
 
 <div class="container py-4">
     <div class="page-header">
-        <h2>✏️ Editar Empanada</h2>
-        <p>Modifica los datos del sabor seleccionado</p>
+        <h2>🫓 Nueva Empanada</h2>
+        <p>Completa los datos para agregar un nuevo sabor</p>
     </div>
 
     <div class="form-card">
-        <form asp-action="Edit" method="post">
+        <form asp-action="Create" method="post">
             @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="Id" />
 
             <div class="mb-4">
                 <label asp-for="Sabor" class="form-label">Sabor</label>
-                <input asp-for="Sabor" class="form-control" />
+                <input asp-for="Sabor" class="form-control" placeholder="Ej: Pollo con Queso" />
                 <span asp-validation-for="Sabor" class="text-danger small"></span>
             </div>
 
             <div class="mb-4">
                 <label asp-for="Precio" class="form-label">Precio</label>
-                <input asp-for="Precio" class="form-control" />
+                <input asp-for="Precio" class="form-control" placeholder="Ej: 50.00" />
                 <span asp-validation-for="Precio" class="text-danger small"></span>
             </div>
 
             <div class="mb-4">
                 <label asp-for="CantidadInventario" class="form-label">Cantidad en Inventario</label>
-                <input asp-for="CantidadInventario" class="form-control" />
+                <input asp-for="CantidadInventario" class="form-control" placeholder="Ej: 20" />
                 <span asp-validation-for="CantidadInventario" class="text-danger small"></span>
             </div>
 
             <div class="d-flex gap-3 mt-2">
-                <button type="submit" class="btn-guardar">💾 Guardar Cambios</button>
+                <button type="submit" class="btn-guardar">💾 Guardar</button>
                 <a asp-action="Index" class="btn-cancelar">Cancelar</a>
             </div>
         </form>
