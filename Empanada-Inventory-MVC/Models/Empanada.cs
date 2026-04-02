@@ -1,7 +1,10 @@
-public class Empanada
+namespace EmpanadaInventory.Models
 {
-	public int Id { get; set; }
-	public string Sabor { get; set; } 
-	public double Precio { get; set; }
-	public int CantidadInventario { get; set; }
+    public class Empanada
+    {
+        public int Id { get; set; }
+        public string Sabor { get; set; } = string.Empty;
+        public decimal Precio { get; set; }
+        public int CantidadInventario { get; set; }
+    }
 }
