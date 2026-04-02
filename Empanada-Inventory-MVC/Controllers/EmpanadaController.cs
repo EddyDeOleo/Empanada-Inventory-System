@@ -1,79 +1,104 @@
-[Route("api/[controller]")]
-[ApiController]
-public class EmpanadaController : ControllerBase
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using EmpanadaInventory.Data;
+using EmpanadaInventory.Models;
+
+namespace EmpanadaInventory.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public EmpanadaController(ApplicationDbContext context)
+    public class EmpanadaController : Controller
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    // GET: api/Empanada (Leer todos)
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Empanada>>> GetEmpanadas()
-    {
-        return await _context.Empanadas.ToListAsync();
-    }
-
-    // POST: api/Empanada (Crear nueva)
-    [HttpPost]
-    public async Task<ActionResult<Empanada>> PostEmpanada(Empanada empanada)
-    {
-        _context.Empanadas.Add(empanada);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetEmpanadas), new { id = empanada.Id }, empanada);
-    }
-
-    // GET: Empanada/Edit/5 (Carga la vista con los datos actuales)
-    [HttpGet("Edit/{id}")]
-    public async Task<IActionResult> Edit(int? id)
-    {
-        if (id == null) return NotFound();
-
-        var empanada = await _context.Empanadas.FindAsync(id);
-        if (empanada == null) return NotFound();
-
-        return View(empanada);
-    }
-
-    // POST: Empanada/Edit/5 (Guarda los cambios en SQL Server)
-    [HttpPost("Edit/{id}")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Sabor,Precio,CantidadInventario")] Empanada empanada)
-    {
-        if (id != empanada.Id) return NotFound();
-
-        if (ModelState.IsValid)
+        public EmpanadaController(ApplicationDbContext context)
         {
-            _context.Update(empanada);
+            _context = context;
+        }
+
+        // GET: Empanada
+        public async Task<IActionResult> Index()
+        {
+            var empanadas = await _context.Empanadas.ToListAsync();
+            return View(empanadas);
+        }
+
+        // GET: Empanada/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Empanada/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Sabor,Precio,CantidadInventario")] Empanada empanada)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(empanada);
+            }
+
+            _context.Empanadas.Add(empanada);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(empanada);
-    }
 
-    // GET: Empanada/Delete/5 (Muestra la confirmación)
-    [HttpGet("Delete/{id}")]
-    public async Task<IActionResult> Delete(int? id)
-    {
-        if (id == null) return NotFound();
+        // GET: Empanada/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
 
-        var empanada = await _context.Empanadas
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (empanada == null) return NotFound();
+            var empanada = await _context.Empanadas.FindAsync(id);
+            if (empanada == null) return NotFound();
 
-        return View(empanada);
-    }
+            return View(empanada);
+        }
 
-    // POST: Empanada/Delete/5 (Ejecuta la eliminación en SQL Server)
-    [HttpPost("Delete/{id}"), ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        var empanada = await _context.Empanadas.FindAsync(id);
-        _context.Empanadas.Remove(empanada);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        // POST: Empanada/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Sabor,Precio,CantidadInventario")] Empanada empanada)
+        {
+            if (id != empanada.Id) return NotFound();
+            if (!ModelState.IsValid) return View(empanada);
+
+            try
+            {
+                _context.Update(empanada);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _context.Empanadas.AnyAsync(e => e.Id == empanada.Id))
+                    return NotFound();
+                throw;
+            }
+        }
+
+        // GET: Empanada/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var empanada = await _context.Empanadas.FirstOrDefaultAsync(m => m.Id == id);
+            if (empanada == null) return NotFound();
+
+            return View(empanada);
+        }
+
+        // POST: Empanada/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var empanada = await _context.Empanadas.FindAsync(id);
+            if (empanada != null)
+            {
+                _context.Empanadas.Remove(empanada);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
