@@ -1,21 +1,120 @@
-@model ProyectoEmpanadas.Models.Empanada
+﻿@model EmpanadaInventory.Models.Empanada
 
-<h1>Eliminar Empanada</h1>
-<h3>�Est�s seguro de que quieres eliminar esta empanada?</h3>
+@{
+    ViewData["Title"] = "Eliminar Empanada";
+}
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Sabor</dt>
-        <dd class="col-sm-10">@Model.Sabor</dd>
+<style>
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-        <dt class="col-sm-2">Precio</dt>
-        <dd class="col-sm-10">@Model.Precio.ToString("C")</dd>
-    </dl>
+    .page-header {
+        background: linear-gradient(135deg, #922b21, #e74c3c);
+        color: white;
+        padding: 28px 40px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(192,57,43,0.3);
+    }
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Eliminar Definitivamente</button> |
-        <a asp-action="Index">Cancelar y volver</a>
-    </form>
+        .page-header h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            margin: 4px 0 0;
+            opacity: 0.85;
+            font-size: 0.9rem;
+        }
+
+    .confirm-card {
+        background: white;
+        border-radius: 12px;
+        padding: 35px 40px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        max-width: 520px;
+    }
+
+    .dato {
+        margin-bottom: 14px;
+        color: #444;
+        font-size: 0.97rem;
+    }
+
+        .dato strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+    .alerta {
+        background-color: #fdedec;
+        border-left: 4px solid #e74c3c;
+        border-radius: 8px;
+        padding: 12px 16px;
+        color: #922b21;
+        font-size: 0.88rem;
+        margin-bottom: 24px;
+    }
+
+    .btn-eliminar {
+        background: linear-gradient(135deg, #922b21, #e74c3c);
+        color: white;
+        border: none;
+        padding: 11px 28px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: opacity 0.2s;
+    }
+
+        .btn-eliminar:hover {
+            opacity: 0.88;
+            color: white;
+        }
+
+    .btn-cancelar {
+        background-color: #ecf0f1;
+        color: #555;
+        border: none;
+        padding: 11px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+
+        .btn-cancelar:hover {
+            background-color: #dde1e3;
+            color: #333;
+        }
+</style>
+
+<div class="container py-4">
+    <div class="page-header">
+        <h2>🗑️ Eliminar Empanada</h2>
+        <p>Esta acción no se puede deshacer</p>
+    </div>
+
+    <div class="confirm-card">
+        <div class="alerta">
+            ⚠️ Estás a punto de eliminar permanentemente este registro.
+        </div>
+
+        <div class="dato"><strong>Sabor:</strong> @Model.Sabor</div>
+        <div class="dato"><strong>Precio:</strong> @Model.Precio.ToString("C")</div>
+        <div class="dato"><strong>Cantidad:</strong> @Model.CantidadInventario uds.</div>
+
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <div class="d-flex gap-3 mt-4">
+                <button type="submit" class="btn-eliminar">🗑️ Sí, eliminar</button>
+                <a asp-action="Index" class="btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </div>
