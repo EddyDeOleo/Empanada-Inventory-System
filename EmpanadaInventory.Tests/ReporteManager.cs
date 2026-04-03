@@ -8,7 +8,8 @@ namespace EmpanadaInventory.Tests
     public class ReporteManager
     {
         private static readonly string ReportPath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory, "Reportes", "Reporte.html");
+    Directory.GetCurrentDirectory(), "..", "..", "..",
+    "Evidencias", "Reportes", "Reporte.html");
 
         private static ExtentReports? _extent;
         private static readonly object _lock = new object();
