@@ -53,7 +53,8 @@ namespace EmpanadaInventory.Tests
         protected string CapturarPantalla(string nombrePrueba)
         {
             string carpeta = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory, "Capturas");
+                Directory.GetCurrentDirectory(), "..", "..", "..",
+                "Evidencias", "Capturas");
             Directory.CreateDirectory(carpeta);
 
             string archivo = Path.Combine(carpeta,
