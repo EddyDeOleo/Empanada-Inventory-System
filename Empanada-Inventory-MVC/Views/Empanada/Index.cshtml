@@ -220,10 +220,12 @@
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn-editar">✏️ Editar</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-eliminar"
-                               onclick="return confirm('¿Seguro que deseas eliminar esta empanada?')">
-                                🗑️ Eliminar
-                            </a>
+                            <form asp-action="DeleteConfirmed" asp-route-id="@item.Id" method="post"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar esta empanada?')">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn-eliminar">🗑️ Eliminar</button>
+                            </form>
                         </td>
                     </tr>
                     }
