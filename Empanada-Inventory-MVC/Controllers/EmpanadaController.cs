@@ -87,7 +87,7 @@ namespace EmpanadaInventory.Controllers
         }
 
         // POST: Empanada/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -97,7 +97,6 @@ namespace EmpanadaInventory.Controllers
                 _context.Empanadas.Remove(empanada);
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToAction(nameof(Index));
         }
     }
