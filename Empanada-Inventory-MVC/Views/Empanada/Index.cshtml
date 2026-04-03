@@ -175,7 +175,6 @@
     </style>
 
     <div class="container py-4">
-
         <div class="page-header">
             <div>
                 <h2>🫓 Inventario de Empanadas</h2>
@@ -213,7 +212,6 @@
                         string stockClass = item.CantidadInventario >= 10 ? "stock-ok"
                                          : item.CantidadInventario >= 4 ? "stock-low"
                                          : "stock-critical";
-
                     <tr>
                         <td class="sabor-badge">@item.Sabor</td>
                         <td class="precio">@item.Precio.ToString("C")</td>
@@ -222,7 +220,10 @@
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn-editar">✏️ Editar</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-eliminar">🗑️ Eliminar</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-eliminar"
+                               onclick="return confirm('¿Seguro que deseas eliminar esta empanada?')">
+                                🗑️ Eliminar
+                            </a>
                         </td>
                     </tr>
                     }
@@ -230,5 +231,4 @@
                 </tbody>
             </table>
         </div>
-
     </div>
